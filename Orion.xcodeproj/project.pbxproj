@@ -8,18 +8,67 @@
 
 /* Begin PBXBuildFile section */
 		1D8E1E13277E1B3B0073504C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E12277E1B3B0073504C /* AppDelegate.swift */; };
-		1D8E1E15277E1B3B0073504C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E14277E1B3B0073504C /* ViewController.swift */; };
 		1D8E1E17277E1B3D0073504C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D8E1E16277E1B3D0073504C /* Assets.xcassets */; };
-		1D8E1E1A277E1B3D0073504C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D8E1E18277E1B3D0073504C /* Main.storyboard */; };
+		1D8E1E29277E21C80073504C /* OrionWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E28277E21C80073504C /* OrionWindowController.swift */; };
+		1D8E1E34277E5C660073504C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E33277E5C660073504C /* main.swift */; };
+		1D8E1E38277E69D10073504C /* OrionWindowController+NSToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E37277E69D10073504C /* OrionWindowController+NSToolbarDelegate.swift */; };
+		1D8E1E3D277E731D0073504C /* OrionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E3C277E731D0073504C /* OrionMenu.swift */; };
+		1D8E1E44277EC03E0073504C /* OrionTabbedLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E43277EC03E0073504C /* OrionTabbedLocationViewController.swift */; };
+		1D8E1E47277EC9400073504C /* OrionSearchFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E46277EC9400073504C /* OrionSearchFieldController.swift */; };
+		1D8E1E4B277F740B0073504C /* OrionDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E4A277F740B0073504C /* OrionDelegates.swift */; };
+		1D8E1E56277FABEC0073504C /* OrionSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E55277FABEC0073504C /* OrionSearchField.swift */; };
+		1D8E1E59277FC6D30073504C /* OrionSearchFieldController+OrionSearchFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E58277FC6D30073504C /* OrionSearchFieldController+OrionSearchFieldDelegate.swift */; };
+		1D8E1E5F277FE0E00073504C /* OrionWindowController+OrionTabbedLocationViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E5E277FE0E00073504C /* OrionWindowController+OrionTabbedLocationViewControllerDelegate.swift */; };
+		1D8E1E61277FFF080073504C /* OrionTabbedLocationVIewController+OrionSearchFieldControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E60277FFF080073504C /* OrionTabbedLocationVIewController+OrionSearchFieldControllerDelegate.swift */; };
+		1D8E1E72278121710073504C /* OrionWindowController+WKUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E1E71278121710073504C /* OrionWindowController+WKUIDelegate.swift */; };
+		1DCBAB5327823F8F00D0342A /* OrionExtensionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB5227823F8F00D0342A /* OrionExtensionManager.swift */; };
+		1DCBAB602782542100D0342A /* WKUserScript+loadJavascript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB5F2782542100D0342A /* WKUserScript+loadJavascript.swift */; };
+		1DCBAB642782586300D0342A /* OrionUserContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB632782586300D0342A /* OrionUserContentController.swift */; };
+		1DCBAB662782637E00D0342A /* OrionTopSitesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB652782637E00D0342A /* OrionTopSitesAPI.swift */; };
+		1DCBAB6827827CDF00D0342A /* OrionTabbedLocationViewController+WKNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB6727827CDF00D0342A /* OrionTabbedLocationViewController+WKNavigationDelegate.swift */; };
+		1DCBAB6E27829DB300D0342A /* OrionBaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB6D27829DB300D0342A /* OrionBaseAPI.swift */; };
+		1DCBAB732782AF7200D0342A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB722782AF7200D0342A /* String.swift */; };
+		1DCBAB762782C4C200D0342A /* OrionBrowserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB752782C4C200D0342A /* OrionBrowserExtension.swift */; };
+		1DCBAB782783642200D0342A /* MozillaExtensionManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB772783642200D0342A /* MozillaExtensionManifest.swift */; };
+		1DCBAB7F2783B20E00D0342A /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 1DCBAB7E2783B20E00D0342A /* ZIPFoundation */; };
+		1DCBAB822783BAF200D0342A /* browserObject.js in Resources */ = {isa = PBXBuildFile; fileRef = 1DCBAB812783BAF200D0342A /* browserObject.js */; };
+		1DCBAB842783BB1F00D0342A /* changeDownloadName.js in Resources */ = {isa = PBXBuildFile; fileRef = 1DCBAB832783BB1F00D0342A /* changeDownloadName.js */; };
+		1DCBAB862783C2D400D0342A /* OrionBrowserExtensionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB852783C2D400D0342A /* OrionBrowserExtensionError.swift */; };
+		1DCBAB882783D39800D0342A /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB872783D39800D0342A /* FileManager.swift */; };
+		1DCBAB8B2783EDA300D0342A /* NSToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBAB8A2783EDA300D0342A /* NSToolbarItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D8E1E0F277E1B3B0073504C /* Orion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D8E1E12277E1B3B0073504C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1D8E1E14277E1B3B0073504C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1D8E1E16277E1B3D0073504C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1D8E1E19277E1B3D0073504C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1D8E1E1B277E1B3D0073504C /* Orion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Orion.entitlements; sourceTree = "<group>"; };
+		1D8E1E28277E21C80073504C /* OrionWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionWindowController.swift; sourceTree = "<group>"; };
+		1D8E1E33277E5C660073504C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		1D8E1E37277E69D10073504C /* OrionWindowController+NSToolbarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrionWindowController+NSToolbarDelegate.swift"; sourceTree = "<group>"; };
+		1D8E1E3C277E731D0073504C /* OrionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionMenu.swift; sourceTree = "<group>"; };
+		1D8E1E43277EC03E0073504C /* OrionTabbedLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionTabbedLocationViewController.swift; sourceTree = "<group>"; };
+		1D8E1E46277EC9400073504C /* OrionSearchFieldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionSearchFieldController.swift; sourceTree = "<group>"; };
+		1D8E1E4A277F740B0073504C /* OrionDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionDelegates.swift; sourceTree = "<group>"; };
+		1D8E1E55277FABEC0073504C /* OrionSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionSearchField.swift; sourceTree = "<group>"; };
+		1D8E1E58277FC6D30073504C /* OrionSearchFieldController+OrionSearchFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrionSearchFieldController+OrionSearchFieldDelegate.swift"; sourceTree = "<group>"; };
+		1D8E1E5E277FE0E00073504C /* OrionWindowController+OrionTabbedLocationViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrionWindowController+OrionTabbedLocationViewControllerDelegate.swift"; sourceTree = "<group>"; };
+		1D8E1E60277FFF080073504C /* OrionTabbedLocationVIewController+OrionSearchFieldControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrionTabbedLocationVIewController+OrionSearchFieldControllerDelegate.swift"; sourceTree = "<group>"; };
+		1D8E1E71278121710073504C /* OrionWindowController+WKUIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrionWindowController+WKUIDelegate.swift"; sourceTree = "<group>"; };
+		1DCBAB5227823F8F00D0342A /* OrionExtensionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionExtensionManager.swift; sourceTree = "<group>"; };
+		1DCBAB5F2782542100D0342A /* WKUserScript+loadJavascript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserScript+loadJavascript.swift"; sourceTree = "<group>"; };
+		1DCBAB632782586300D0342A /* OrionUserContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionUserContentController.swift; sourceTree = "<group>"; };
+		1DCBAB652782637E00D0342A /* OrionTopSitesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionTopSitesAPI.swift; sourceTree = "<group>"; };
+		1DCBAB6727827CDF00D0342A /* OrionTabbedLocationViewController+WKNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrionTabbedLocationViewController+WKNavigationDelegate.swift"; sourceTree = "<group>"; };
+		1DCBAB6D27829DB300D0342A /* OrionBaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionBaseAPI.swift; sourceTree = "<group>"; };
+		1DCBAB722782AF7200D0342A /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		1DCBAB752782C4C200D0342A /* OrionBrowserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionBrowserExtension.swift; sourceTree = "<group>"; };
+		1DCBAB772783642200D0342A /* MozillaExtensionManifest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MozillaExtensionManifest.swift; sourceTree = "<group>"; };
+		1DCBAB812783BAF200D0342A /* browserObject.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = browserObject.js; sourceTree = "<group>"; };
+		1DCBAB832783BB1F00D0342A /* changeDownloadName.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = changeDownloadName.js; sourceTree = "<group>"; };
+		1DCBAB852783C2D400D0342A /* OrionBrowserExtensionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrionBrowserExtensionError.swift; sourceTree = "<group>"; };
+		1DCBAB872783D39800D0342A /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		1DCBAB8A2783EDA300D0342A /* NSToolbarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSToolbarItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DCBAB7F2783B20E00D0342A /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,13 +102,133 @@
 		1D8E1E11277E1B3B0073504C /* Orion */ = {
 			isa = PBXGroup;
 			children = (
+				1DCBAB892783E5D000D0342A /* Delegates */,
+				1DCBAB802783BABC00D0342A /* Packaged Resources */,
+				1DCBAB712782AF5B00D0342A /* Extensions */,
+				1D8E1E7027810DF30073504C /* Extensions and Content Injection */,
+				1D8E1E50277F89510073504C /* Main Window Controller */,
+				1D8E1E31277E596C0073504C /* Toolbar */,
+				1D8E1E3C277E731D0073504C /* OrionMenu.swift */,
 				1D8E1E12277E1B3B0073504C /* AppDelegate.swift */,
-				1D8E1E14277E1B3B0073504C /* ViewController.swift */,
 				1D8E1E16277E1B3D0073504C /* Assets.xcassets */,
-				1D8E1E18277E1B3D0073504C /* Main.storyboard */,
 				1D8E1E1B277E1B3D0073504C /* Orion.entitlements */,
+				1D8E1E33277E5C660073504C /* main.swift */,
 			);
 			path = Orion;
+			sourceTree = "<group>";
+		};
+		1D8E1E31277E596C0073504C /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				1D8E1E57277FC5F50073504C /* Search Field and Tabs */,
+			);
+			path = Toolbar;
+			sourceTree = "<group>";
+		};
+		1D8E1E50277F89510073504C /* Main Window Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1D8E1E62278015740073504C /* Extensions */,
+				1D8E1E28277E21C80073504C /* OrionWindowController.swift */,
+			);
+			path = "Main Window Controller";
+			sourceTree = "<group>";
+		};
+		1D8E1E57277FC5F50073504C /* Search Field and Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				1D8E1E63278015860073504C /* Extensions */,
+				1D8E1E55277FABEC0073504C /* OrionSearchField.swift */,
+				1D8E1E46277EC9400073504C /* OrionSearchFieldController.swift */,
+				1D8E1E43277EC03E0073504C /* OrionTabbedLocationViewController.swift */,
+			);
+			path = "Search Field and Tabs";
+			sourceTree = "<group>";
+		};
+		1D8E1E62278015740073504C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1D8E1E37277E69D10073504C /* OrionWindowController+NSToolbarDelegate.swift */,
+				1D8E1E5E277FE0E00073504C /* OrionWindowController+OrionTabbedLocationViewControllerDelegate.swift */,
+				1D8E1E71278121710073504C /* OrionWindowController+WKUIDelegate.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1D8E1E63278015860073504C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1DCBAB6727827CDF00D0342A /* OrionTabbedLocationViewController+WKNavigationDelegate.swift */,
+				1D8E1E58277FC6D30073504C /* OrionSearchFieldController+OrionSearchFieldDelegate.swift */,
+				1D8E1E60277FFF080073504C /* OrionTabbedLocationVIewController+OrionSearchFieldControllerDelegate.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1D8E1E7027810DF30073504C /* Extensions and Content Injection */ = {
+			isa = PBXGroup;
+			children = (
+				1DCBAB772783642200D0342A /* MozillaExtensionManifest.swift */,
+				1DCBAB6F2782AB2000D0342A /* Protocols */,
+				1DCBAB5E2782540800D0342A /* Extensions */,
+				1DCBAB5A27824F5000D0342A /* APIs */,
+				1DCBAB632782586300D0342A /* OrionUserContentController.swift */,
+				1DCBAB752782C4C200D0342A /* OrionBrowserExtension.swift */,
+				1DCBAB852783C2D400D0342A /* OrionBrowserExtensionError.swift */,
+				1DCBAB5227823F8F00D0342A /* OrionExtensionManager.swift */,
+			);
+			path = "Extensions and Content Injection";
+			sourceTree = "<group>";
+		};
+		1DCBAB5A27824F5000D0342A /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				1DCBAB652782637E00D0342A /* OrionTopSitesAPI.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		1DCBAB5E2782540800D0342A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1DCBAB5F2782542100D0342A /* WKUserScript+loadJavascript.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1DCBAB6F2782AB2000D0342A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				1DCBAB6D27829DB300D0342A /* OrionBaseAPI.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		1DCBAB712782AF5B00D0342A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1DCBAB722782AF7200D0342A /* String.swift */,
+				1DCBAB872783D39800D0342A /* FileManager.swift */,
+				1DCBAB8A2783EDA300D0342A /* NSToolbarItem.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1DCBAB802783BABC00D0342A /* Packaged Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1DCBAB812783BAF200D0342A /* browserObject.js */,
+				1DCBAB832783BB1F00D0342A /* changeDownloadName.js */,
+			);
+			path = "Packaged Resources";
+			sourceTree = "<group>";
+		};
+		1DCBAB892783E5D000D0342A /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				1D8E1E4A277F740B0073504C /* OrionDelegates.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,6 +238,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D8E1E1E277E1B3D0073504C /* Build configuration list for PBXNativeTarget "Orion" */;
 			buildPhases = (
+				1DCBAB4627813CCD00D0342A /* ShellScript */,
 				1D8E1E0B277E1B3B0073504C /* Sources */,
 				1D8E1E0C277E1B3B0073504C /* Frameworks */,
 				1D8E1E0D277E1B3B0073504C /* Resources */,
@@ -77,6 +248,9 @@
 			dependencies = (
 			);
 			name = Orion;
+			packageProductDependencies = (
+				1DCBAB7E2783B20E00D0342A /* ZIPFoundation */,
+			);
 			productName = Orion;
 			productReference = 1D8E1E0F277E1B3B0073504C /* Orion.app */;
 			productType = "com.apple.product-type.application";
@@ -105,6 +279,9 @@
 				Base,
 			);
 			mainGroup = 1D8E1E06277E1B3B0073504C;
+			packageReferences = (
+				1DCBAB7D2783B20E00D0342A /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+			);
 			productRefGroup = 1D8E1E10277E1B3B0073504C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -120,34 +297,67 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D8E1E17277E1B3D0073504C /* Assets.xcassets in Resources */,
-				1D8E1E1A277E1B3D0073504C /* Main.storyboard in Resources */,
+				1DCBAB822783BAF200D0342A /* browserObject.js in Resources */,
+				1DCBAB842783BB1F00D0342A /* changeDownloadName.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1DCBAB4627813CCD00D0342A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D8E1E0B277E1B3B0073504C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D8E1E15277E1B3B0073504C /* ViewController.swift in Sources */,
+				1D8E1E59277FC6D30073504C /* OrionSearchFieldController+OrionSearchFieldDelegate.swift in Sources */,
+				1DCBAB642782586300D0342A /* OrionUserContentController.swift in Sources */,
+				1D8E1E61277FFF080073504C /* OrionTabbedLocationVIewController+OrionSearchFieldControllerDelegate.swift in Sources */,
+				1DCBAB762782C4C200D0342A /* OrionBrowserExtension.swift in Sources */,
+				1DCBAB862783C2D400D0342A /* OrionBrowserExtensionError.swift in Sources */,
+				1DCBAB782783642200D0342A /* MozillaExtensionManifest.swift in Sources */,
+				1D8E1E47277EC9400073504C /* OrionSearchFieldController.swift in Sources */,
+				1DCBAB6E27829DB300D0342A /* OrionBaseAPI.swift in Sources */,
+				1D8E1E56277FABEC0073504C /* OrionSearchField.swift in Sources */,
+				1D8E1E72278121710073504C /* OrionWindowController+WKUIDelegate.swift in Sources */,
+				1DCBAB5327823F8F00D0342A /* OrionExtensionManager.swift in Sources */,
+				1D8E1E29277E21C80073504C /* OrionWindowController.swift in Sources */,
+				1DCBAB662782637E00D0342A /* OrionTopSitesAPI.swift in Sources */,
+				1DCBAB602782542100D0342A /* WKUserScript+loadJavascript.swift in Sources */,
+				1DCBAB882783D39800D0342A /* FileManager.swift in Sources */,
+				1D8E1E44277EC03E0073504C /* OrionTabbedLocationViewController.swift in Sources */,
+				1DCBAB6827827CDF00D0342A /* OrionTabbedLocationViewController+WKNavigationDelegate.swift in Sources */,
+				1D8E1E38277E69D10073504C /* OrionWindowController+NSToolbarDelegate.swift in Sources */,
 				1D8E1E13277E1B3B0073504C /* AppDelegate.swift in Sources */,
+				1DCBAB8B2783EDA300D0342A /* NSToolbarItem.swift in Sources */,
+				1D8E1E5F277FE0E00073504C /* OrionWindowController+OrionTabbedLocationViewControllerDelegate.swift in Sources */,
+				1DCBAB732782AF7200D0342A /* String.swift in Sources */,
+				1D8E1E34277E5C660073504C /* main.swift in Sources */,
+				1D8E1E4B277F740B0073504C /* OrionDelegates.swift in Sources */,
+				1D8E1E3D277E731D0073504C /* OrionMenu.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		1D8E1E18277E1B3D0073504C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D8E1E19277E1B3D0073504C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D8E1E1C277E1B3D0073504C /* Debug */ = {
@@ -201,7 +411,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -256,7 +466,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -278,12 +488,12 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cero.Orion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -305,12 +515,12 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cero.Orion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -341,6 +551,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1DCBAB7D2783B20E00D0342A /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1DCBAB7E2783B20E00D0342A /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1DCBAB7D2783B20E00D0342A /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1D8E1E07277E1B3B0073504C /* Project object */;
 }
