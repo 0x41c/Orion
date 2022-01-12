@@ -16,6 +16,16 @@ protocol OrionTabbedLocationViewControllerDelegate: AnyObject {
     /// Our window will then set its webview to this tabs window
     func tabWantsForeground(tab: OrionSearchFieldController)
 
+    /// Whenever there is a change in the current windows webview state
+    /// the toolbar background color needs to be updated to ensure that
+    /// there are no inconsistencies in the colors of the webpage.
+    func updateToolbarColor()
+
+    /// Called by objects that need to update their sizes whenever the
+    /// window they're connected to resizes. This allows views to use the window
+    /// width or the new width to their advantage
+    func addWindowResizeEventListener(_ observer: OrionWindowResizeDelegate)
+
     /// The extension manager reference for the `OrionTabbedLocationViewController` to access
     var extensionManager: OrionExtensionManager { get }
 
@@ -35,17 +45,13 @@ protocol OrionSearchFieldControllerDelegate: AnyObject {
     /// webview over to the main window.
     func tabWantsForeground(tab: OrionSearchFieldController)
 
-    /// When a tab becomes first responder, this function gets called to animate the
-    /// changes in the whole stack
-    func tabBecameFirstResponder(tab: OrionSearchFieldController)
-
     /// The amount of tabs so that the search field can refine its shrinking and expanding calculations
     var tabCount: Int { get }
 }
 
 /// The delegate responsible for responding to the `OrionSearchField` being tapped
 /// and forwarding the event out to parent delegates
-protocol OrionSearchFieldDelegate: NSSearchFieldDelegate {
+protocol OrionSearchFieldDelegate: NSTextFieldDelegate {
 
     /// When a search field gets tapped, it will call this function signifying that
     /// it was tapped and needs to be focused for the user.
@@ -67,4 +73,13 @@ protocol OrionBrowserExtensionDelegate: AnyObject {
     /// that its window gets shown to the window
     func showPopover(_ sender: OrionBrowserExtension)
 
+}
+
+/// Used when the window gets a `windowWillResize` event called on it.
+/// This allows views relying on the windows size to resize their constraints
+/// before anything happens
+protocol OrionWindowResizeDelegate: AnyObject {
+    /// A forward call of the `windowWillResize` function implemented on the window
+    /// delegate
+    func windowWillResize(toSize: NSSize)
 }

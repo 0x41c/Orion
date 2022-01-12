@@ -10,8 +10,12 @@ import WebKit
 
 /// The global `WKUserContentController`.
 class OrionUserContentController: WKUserContentController {
+
+    /// Default message handlers that should be loaded into every instance
+    /// of a webview
+    let defaultMessageHandlers: [String: WKScriptMessageHandler] = [:]
     let userScriptNames: [String] = [
-        "changeDownloadName"
+       // "changeDownloadName"
     ]
 
     /// Creates a WKUserContentController while automatically loading
@@ -21,6 +25,11 @@ class OrionUserContentController: WKUserContentController {
         for name in userScriptNames {
             addUserScript(WKUserScript(name: name))
         }
+
+        defaultMessageHandlers.forEach { (name, handler) in
+            add(handler, name: name)
+        }
+
     }
 
     required init?(coder: NSCoder) {

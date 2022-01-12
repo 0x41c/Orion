@@ -15,6 +15,4 @@ extension NSToolbarItem.Identifier {
     static let pinTab: NSToolbarItem.Identifier = .init("PinTab")
     static let tabs: NSToolbarItem.Identifier = .init("Address")
     static let backwordForwardGroup: NSToolbarItem.Identifier = .init("BackForwardGroup")
-    static let backward: NSToolbarItem.Identifier = .init("Back")
-    static let forward: NSToolbarItem.Identifier = .init("Forward")
 }

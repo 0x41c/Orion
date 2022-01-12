@@ -14,8 +14,8 @@ import WebKit
 /// The controller that manages and maintains an `OrionSearchField`
 class OrionSearchFieldController: NSViewController {
 
-    /// The user agent to use when accessing a firefox extension download page
-    let firefoxUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 12.0; rv:87.0) Gecko/20100101 Firefox/87.0"
+    /// The default user agent used by the webview
+    let safariUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15" // swiftlint:ignore:current line_length
 
     /// The wrapped search field
     let searchField: OrionSearchField
@@ -51,8 +51,9 @@ class OrionSearchFieldController: NSViewController {
         self.searchField = OrionSearchField()
         self.userContentController = contentController
         super.init(nibName: nil, bundle: nil)
-        self.searchField.orionDelegate = self
-        setupSearchField()
+        searchField.orionDelegate = self
+        searchField.delegate = self
+        searchField.setupDefaultProperties()
     }
 
     override func loadView() {
@@ -70,10 +71,9 @@ class OrionSearchFieldController: NSViewController {
     ///     - url: The URL to navigate to
     func goTo(url: URL) {
         tabHistory.append(url)
-        let request: URLRequest = URLRequest(url: url)
+        let request: URLRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
+        searchField.currentURL = url
         webview.load(request)
-        searchField.stringValue = url.absoluteString
-
     }
 
     /// Wraps the `OrionSearchFieldController.goTo(url: URL)` method and handles search parsing
@@ -82,47 +82,60 @@ class OrionSearchFieldController: NSViewController {
     ///  - Parameters:
     ///     - url: The url or search to navigate to; Uses a search engine if needed
     func goTo(url: String) {
+        webview.customUserAgent = safariUA
+        var url = url
         if url.hasPrefix("https://addons.mozilla.org/") {
             webview.customUserAgent = firefoxUA
         }
         if url.isValidURL {
+            if !url.hasPrefix("https://") && !url.hasPrefix("http://") {
+                url = "https://\(url)"
+            }
             goTo(url: URL(string: url)!)
         } else {
-            if "https://\(url)/".isValidURL {
-                goTo(url: URL(string: url)!)
-            } else {
-                var components: URLComponents = URLComponents()
-                components.scheme = "https"
-                components.host = "duckduckgo.com"
-                components.path = "/"
-                components.queryItems = [
-                    URLQueryItem(name: "q", value: url)
-                ]
-                goTo(url: components.url!)
-            }
+            var components: URLComponents = URLComponents()
+            components.scheme = "https"
+            components.host = "duckduckgo.com"
+            components.path = "/"
+            components.queryItems = [
+                URLQueryItem(name: "q", value: url)
+            ]
+            goTo(url: components.url!)
         }
     }
 
     /// Sets up the webviews properties and toggles the needed preferences
     func setupWebView() {
-        webview.autoresizingMask = [.height, .width]
-        webview.configuration.preferences.setValuesForKeys([
-            "offlineApplicationCacheIsEnabled": true,
-            "aggressiveTileRetentionEnabled": true,
-            "screenCaptureEnabled": true,
-            "allowsPictureInPictureMediaPlayback": true,
-            "fullScreenEnabled": true,
-            "largeImageAsyncDecodingEnabled": true,
-            "animatedImageAsyncDecodingEnabled": true,
-            "developerExtrasEnabled": true,
-            "usesPageCache": true,
-            "mediaSourceEnabled": true,
-            "mockCaptureDevicesPromptEnabled": true,
-            "canvasUsesAcceleratedDrawing": true,
-            "videoQualityIncludesDisplayCompositingEnabled": true,
-            "backspaceKeyNavigationEnabled": false
-        ])
-        webview.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+        webview.translatesAutoresizingMaskIntoConstraints = false
+        let keys = [
+            "offlineApplicationCacheIsEnabled",
+            "aggressiveTileRetentionEnabled",
+            "screenCaptureEnabled",
+            "allowsPictureInPictureMediaPlayback",
+            "fullScreenEnabled",
+            "largeImageAsyncDecodingEnabled",
+            "animatedImageAsyncDecodingEnabled",
+            "developerExtrasEnabled",
+            "usesPageCache",
+            "mediaSourceEnabled",
+            "mockCaptureDevicesPromptEnabled",
+            "canvasUsesAcceleratedDrawing",
+            "videoQualityIncludesDisplayCompositingEnabled",
+            "backspaceKeyNavigationEnabled"
+        ]
+        let preferences = webview.configuration.preferences
+        for index in 0..<keys.count {
+            guard preferences.value(forKey: keys[index]) != nil else {
+                continue
+            }
+            preferences.setValue(
+                index != keys.count-1 ? true : false,
+                forKey: keys[index]
+            )
+        }
+        preferences.javaScriptCanOpenWindowsAutomatically = true
+        webview.configuration.suppressesIncrementalRendering = true
+        webview.customUserAgent = safariUA
     }
 
 }

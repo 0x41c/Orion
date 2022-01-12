@@ -15,5 +15,4 @@ enum OrionBrowserExtensionError: Error {
     /// If the extension manifest is malformed or invalid, this error is called
     /// with a message saying specifically what happened
     case unableToLoadManifest(_ message: String)
-
 }

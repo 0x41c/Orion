@@ -17,7 +17,11 @@ import WebKit
 /// synchronously.
 class OrionTabbedLocationViewController: NSViewController {
 
-    /// The stackview holding all of our tabs
+    /// A value determining if the view gets set up normally on creation
+    /// or if only the UI properties are set and the delegation is not needed.
+    let mockup: Bool
+
+    /// Centralized tab collection
     let stackView: NSStackView = NSStackView()
 
     /// The list of all the tabs open in the window
@@ -40,11 +44,15 @@ class OrionTabbedLocationViewController: NSViewController {
     ///  - Parameters:
     ///     - delegate: The owner of this class that manages the current tabs webview
     init(
-        _ delegate: OrionTabbedLocationViewControllerDelegate?
+        _ delegate: OrionTabbedLocationViewControllerDelegate?,
+        _ mockup: Bool,
+        _ window: NSWindow? = nil
     ) {
         self.delegate = delegate
+        self.mockup = mockup
         super.init(nibName: nil, bundle: nil)
-        setupStackView()
+        delegate?.addWindowResizeEventListener(self)
+        setupStackView(window: window)
     }
 
     required init?(coder: NSCoder) {
@@ -52,16 +60,14 @@ class OrionTabbedLocationViewController: NSViewController {
     }
 
     /// Sets up the stackView and makes it stretch across the entire toolbar
-    func setupStackView() {
+    func setupStackView(window: NSWindow?) {
         stackView.orientation = .horizontal
         stackView.spacing = 15
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fillProportionally
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.widthAnchor.constraint(lessThanOrEqualToConstant: 10000),
-            stackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 300)
+            stackView.heightAnchor.constraint(equalToConstant: 31)
         ])
-        stackView.autoresizingMask = [.width]
         addTab()
     }
 
@@ -74,10 +80,18 @@ class OrionTabbedLocationViewController: NSViewController {
         tabs.append(tab)
         currentTab = tab
         stackView.addView(tab.searchField, in: .trailing)
-        tab.setupWebView()
-        tab.webview.navigationDelegate = self
-        delegate?.tabWantsForeground(tab: tab)
-        tab.goTo(url: "https://duckduckgo.com")
+        if !mockup {
+            tab.setupWebView()
+            tab.webview.navigationDelegate = self
+            tabWantsForeground(tab: tab)
+            if stackView.window != nil {
+                stackView.window?.makeFirstResponder(tab.searchField)
+            }
+            if let controller = delegate as? OrionWindowController {
+                controller.tabItemStretchView?.updateCustomSizing()
+            }
+            tab.goTo(url: "https://duckduckgo.com")
+        }
     }
 
     /// Removes a tab and gives foreground context to the last tab in the tab array
@@ -91,6 +105,7 @@ class OrionTabbedLocationViewController: NSViewController {
             return
         }
         tabs.remove(at: tabIndex!)
+        updateAllTabs(nil)
         stackView.removeView(tab.searchField)
     }
 }

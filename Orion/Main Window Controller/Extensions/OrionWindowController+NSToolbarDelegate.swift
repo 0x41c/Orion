@@ -21,8 +21,8 @@ extension OrionWindowController: NSToolbarDelegate {
     ///     - toolbar: The `NSToolbar` object calling this function
     ///
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        if allToolbarIdentifiers.count == 0 {
-            allToolbarIdentifiers = [
+        if !allToolbarIdentifiers.contains(.addTab) { // just a default item for the check
+            allToolbarIdentifiers += [
                 .addTab,
                 .reload,
                 .flexibleSpace,
@@ -64,9 +64,6 @@ extension OrionWindowController: NSToolbarDelegate {
         image: NSImage?,
         action: Selector?
     ) -> NSToolbarItem {
-        if tabControllerItem != nil && identifier == .tabs {
-            return tabControllerItem!
-        }
         var item: NSToolbarItem = NSToolbarItem(itemIdentifier: identifier)
         let customIDs: [NSToolbarItem.Identifier] = [
             .tabs,
@@ -87,45 +84,38 @@ extension OrionWindowController: NSToolbarDelegate {
             item.action = action
         } else {
             switch identifier {
-            case .tabs:
-                item.view = tabController.stackView
-                tabControllerItem = item
             case .flexibleSpace:
                 return item
             case .backwordForwardGroup:
-                item = NSToolbarItemGroup(itemIdentifier: identifier)
-                if let itemGroup = item as? NSToolbarItemGroup {
-                    let leftItem = NSToolbarItem(itemIdentifier: .backward)
-                    let rightItem = NSToolbarItem(itemIdentifier: .forward)
-                    leftItem.target = self
-                    rightItem.target = self
-                    leftItem.action = action
-                    rightItem.action = action
-                    itemGroup.subitems = [
-                        leftItem,
-                        rightItem
-                    ]
-                    if #available(macOS 10.15, *) {
-                        leftItem.isBordered = true
-                        rightItem.isBordered = true
-                        itemGroup.controlRepresentation = .expanded
-                        itemGroup.selectionMode = .momentary
-                    }
-                    if #available(macOS 11, *) {
-                        leftItem.image = NSImage(
+                var images: [NSImage]
+                if #available(macOS 11, *) {
+                    images = [
+                        NSImage(
                             systemSymbolName: "chevron.backward",
                             accessibilityDescription: "Go Back"
-                        )
-                        rightItem.image = NSImage(
+                        )!,
+                        NSImage(
                             systemSymbolName: "chevron.forward",
                             accessibilityDescription: "Go Forward"
-                        )
-                        itemGroup.isNavigational = true
-                    } else {
-                        leftItem.image = NSImage(named: NSImage.goBackTemplateName)
-                        rightItem.image = NSImage(named: NSImage.goForwardTemplateName)
-                    }
+                        )!
+                    ]
+                } else {
+                    images = [
+                        NSImage(named: NSImage.goBackTemplateName)!,
+                        NSImage(named: NSImage.goForwardTemplateName)!
+                    ]
                 }
+                let control = NSSegmentedControl(
+                    images: images,
+                    trackingMode: .momentary,
+                    target: self,
+                    action: #selector(navigate(sender:))
+                )
+                item = NSToolbarItem(itemIdentifier: .backwordForwardGroup)
+                item.view = control
+                control.segmentStyle = .separated
+                control.setToolTip("Back", forSegment: 0)
+                control.setToolTip("Forward", forSegment: 1)
             default:
                 break
             }
@@ -160,23 +150,11 @@ extension OrionWindowController: NSToolbarDelegate {
                 .backwordForwardGroup: "Back/Forward"
             ]
         }
-        if preconfiguredToolbarItem != nil {
-            if itemIdentifier == preconfiguredToolbarItem!.itemIdentifier {
-                let copy = preconfiguredToolbarItem
-                preconfiguredToolbarItem = nil
-                return copy
-            }
-        }
 
         var defaultItems: [NSToolbarItem.Identifier: NSToolbarItem] {
             var toolbarItems: [NSToolbarItem] = [
                 configureItem(
                     identifier: .flexibleSpace,
-                    image: nil,
-                    action: #selector(unimplementedAction(sender:))
-                ), // Quickfix
-                configureItem(
-                    identifier: .tabs,
                     image: nil,
                     action: nil
                 ),
@@ -186,6 +164,33 @@ extension OrionWindowController: NSToolbarDelegate {
                     action: #selector(navigate(sender:))
                 )
             ]
+
+            if !flag {
+                let fakeContentController = OrionTabbedLocationViewController(nil, true)
+                let item: NSToolbarItem = NSToolbarItem(itemIdentifier: .tabs)
+                item.view = fakeContentController.stackView
+                NSLayoutConstraint.activate([
+                    fakeContentController.currentTab!.searchField.heightAnchor.constraint(equalToConstant: 31)
+                ])
+                toolbarItems.append(item)
+            } else {
+                if tabControllerItem == nil {
+                    tabItemStretchView = OrionTabStretcherView()
+                    tabItemStretchView!.translatesAutoresizingMaskIntoConstraints = false
+                    NSLayoutConstraint.activate([
+                        tabItemStretchView!.heightAnchor.constraint(equalToConstant: 31)
+                    ])
+                    tabItemStretchView!.addSubview(tabController.stackView)
+                    let item = NSToolbarItem(itemIdentifier: .tabs)
+                    item.paletteLabel = toolbarItemNames[.tabs]!
+                    item.view = tabItemStretchView!
+                    windowResizeEventListeners.append(tabItemStretchView!)
+                    tabItemStretchView!.beforeLoadWindow = window
+                    tabControllerItem = item
+                }
+                toolbarItems.append(tabControllerItem!)
+            }
+
             if #available(macOS 11, *) {
                 toolbarItems.append(contentsOf: [
                     configureItem(
@@ -226,23 +231,25 @@ extension OrionWindowController: NSToolbarDelegate {
             return mapped
         }
 
+        _ = defaultItems
+
         if defaultItems.keys.contains(itemIdentifier) {
             return defaultItems[itemIdentifier]
+        } else if dynamicItems.keys.contains(itemIdentifier) {
+            return dynamicItems[itemIdentifier]
         } else {
             return nil
         }
     }
 
-    // MARK: NSToolbarItem actions
-
-    /// When an action is unimplemented a warning gets put into the console
-    ///
-    ///  - Parameters:
-    ///     - sender: The toolbar item that was pressed
-    ///
-    @objc func unimplementedAction(sender: NSToolbarItem) {
-        print("[*] WARNING: Action unimplemented on item: \(sender.itemIdentifier.rawValue)")
+    func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
+        for listener in windowResizeEventListeners {
+            listener.windowWillResize(toSize: frameSize)
+        }
+        return frameSize
     }
+
+    // MARK: NSToolbarItem actions
 
     /// Calls `tabController.addTab()` on the tabController
     ///
@@ -260,12 +267,15 @@ extension OrionWindowController: NSToolbarDelegate {
     ///     - sender: The toolbar item that corresponded to either the `backward` or `forward`
     ///               `NSToolbarItem.Identifier`
     ///
-    @objc func navigate(sender: NSToolbarItem) {
-        if sender.itemIdentifier == .backward {
+    @objc func navigate(sender: NSSegmentedControl) {
+        let segmentNumber = sender.selectedSegment
+        sender.setSelected(false, forSegment: segmentNumber)
+
+        if segmentNumber == 0 {
             if tabController.currentTab!.webview.canGoBack {
                 tabController.currentTab!.webview.goBack()
             }
-        } else if sender.itemIdentifier == .forward {
+        } else {
             if tabController.currentTab!.webview.canGoForward {
                 tabController.currentTab!.webview.goForward()
             }
@@ -284,6 +294,7 @@ extension OrionWindowController: NSToolbarDelegate {
         if let currentTab = tabController.currentTab {
             if currentTab.webview.url != nil {
                 currentTab.webview.reload()
+                updateToolbarColor()
             }
         }
     }

@@ -1,0 +1,110 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background: rgb(246, 246, 246);
+            cursor: default;
+            display: -webkit-box;
+            font-family: '-apple-system-font';
+            text-align: center;
+            -webkit-box-align: center;
+            -webkit-box-pack: center;
+            -webkit-user-select: none;
+        }
+
+        a {
+            color: rgb(21, 126, 251);
+            text-decoration: none;
+        }
+
+        input {
+            font-size: 16px;
+        }
+
+        .content-container {
+            min-width: 320px;
+            max-width: 580px;
+            margin: 0 auto;
+            position: relative;
+            width: 80%;
+        }
+
+        .main-title {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 34px;
+            margin: 0 auto;
+        }
+
+        .error-message {
+            font-size: 13px;
+            line-height: 18px;
+            padding: 0px 24px;
+        }
+
+        .text-container {
+            color: rgb(133, 133, 133);
+            position: relative;
+            width: 100%;
+            word-wrap: break-word;
+        }
+    
+        ._hidden {
+            display: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: rgb(28, 28, 30);
+            }
+            a {
+                color: rgb(21, 126, 251);
+                text-decoration: none;
+            }
+            .text-container {
+                color: rgb(133, 133, 133);
+            }
+        }
+    </style>
+    <!-- LOCALIZERS: The next line contains the page title that appears in the window's title bar -->
+    <title>__MESSAGE__</title>
+</head>
+
+<body>
+    <div class="content-container">
+        <div class="error-container">
+            <div class="text-container">
+                <!-- Main title -->
+                <p class="main-title">Oh no! Site can not be opened</p>
+            </div>
+            <div class="text-container">
+                <!-- Error detail message -->
+                <p class="error-message">Orion can't open the page __URL__ - __MESSAGE__.</p>
+            </div>
+            <div class="text-container">
+                <p class="error-message"><a href="javascript:location.reload()">Try Again</a></p>
+                <p class="error-message _hidden" id="web-archive">Search Web Archive for __URL_HOST__. <a href="" id="web-archive-url">Try Web Archive</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function checkWebArchive(url) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                var data = JSON.parse(xmlHttp.responseText);
+                if (Object.keys(data["archived_snapshots"]).length > 0) { // if dict is not empty
+                    document.getElementById("web-archive").classList.remove("_hidden");
+                    document.getElementById("web-archive-url").href = data["archived_snapshots"]["closest"]["url"];
+                }
+            }
+        }
+        // https://archive.org/help/wayback_api.php
+        xmlHttp.open("GET", 'https://archive.org/wayback/available?url=' + url, true); // true for asynchronous
+        xmlHttp.send(null);
+    }
+    checkWebArchive('__URL__');
+</script>
+</html>

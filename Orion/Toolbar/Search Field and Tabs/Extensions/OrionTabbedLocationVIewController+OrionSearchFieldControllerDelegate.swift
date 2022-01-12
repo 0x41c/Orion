@@ -8,25 +8,15 @@
 import Foundation
 import Cocoa
 
-// TODO: Animate the changes if necessary
-
 extension OrionTabbedLocationViewController: OrionSearchFieldControllerDelegate {
 
     var tabCount: Int {
         return tabs.count
     }
 
-    func tabBecameFirstResponder(tab: OrionSearchFieldController) {
-        for otherTab in tabs where otherTab !== tab {
-            otherTab.searchField.updateProperties(tabCount: tabs.count)
-        }
-    }
-
     func tabWillClose(sender: OrionSearchFieldController) {
         removeTab(tab: sender)
-        for otherTab in tabs {
-            otherTab.searchField.updateProperties(tabCount: tabs.count)
-        }
+        updateAllTabs(sender)
     }
 
     func tabWantsForeground(tab: OrionSearchFieldController) {
@@ -35,6 +25,22 @@ extension OrionTabbedLocationViewController: OrionSearchFieldControllerDelegate 
             return
         }
         delegate!.tabWantsForeground(tab: tab)
+        delegate!.updateToolbarColor()
+        updateAllTabs(tab)
     }
 
+    /// Calls `OrionSearchField.updateProperties(tabCount:)` on all of the tab search fields
+    ///
+    ///  - Parameters:
+    ///     - sender: Optional sender to directly control which tab has focus. If not supplied
+    ///     the focus is assumed to be the current tab.
+    ///     - windowSize: Optional size to update the width of the tabs with. Defaults to nil.
+    func updateAllTabs(_ sender: OrionSearchFieldController?, _ windowSize: NSSize? = nil) {
+        for tab in tabs {
+            tab.searchField.updateProperties(
+                focused: tab === (sender ?? currentTab!),
+                windowSize: windowSize ?? currentTab!.searchField.window?.frame.size
+            )
+        }
+    }
 }

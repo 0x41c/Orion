@@ -89,7 +89,8 @@ class OrionExtensionManager: OrionBrowserExtensionDelegate {
             let manifest = try MozillaBrowserExtensionManifest(newDirectory.appendingPathComponent("manifest.json"))
             DispatchQueue.main.async {
                 let alert: NSAlert = NSAlert()
-                alert.messageText = "Add: \(manifest.name)"
+                alert.messageText = NSLocalizedString("Add %s", comment: "Add extension popup title")
+                    .replacingOccurrences(of: "%s", with: manifest.name)
                 alert.informativeText = "Are you sure you want to add the extension \(manifest.name)"
                 alert.informativeText += "\nIt accesses the following permissions"
                 if manifest.permissions != nil {
@@ -97,8 +98,8 @@ class OrionExtensionManager: OrionBrowserExtensionDelegate {
                         alert.informativeText += "\n  • \(permission)"
                     }
                 }
-                alert.addButton(withTitle: "Add Extension")
-                alert.addButton(withTitle: "Cancel")
+                alert.addButton(withTitle: NSLocalizedString("Add Extension", comment: "Add extension button label"))
+                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel button label"))
                 alert.beginSheetModal(for: self.windowController!.window!) { response in
                     if response == .alertFirstButtonReturn {
                         // Extension is now in place, time to load it
@@ -185,7 +186,7 @@ class OrionExtensionManager: OrionBrowserExtensionDelegate {
     ///                         extension list.
     ///
     func deleteExtension(internalIdentifier: String, browserExtension: OrionBrowserExtension?) {
-        let extensionPath: URL = getDirectory(extensionFolderName).appendingPathExtension(internalIdentifier)
+        let extensionPath: URL = getDirectory(extensionFolderName).appendingPathComponent(internalIdentifier)
         guard fileManager.fileExists(atPath: extensionPath.path) else {
             print("[Error] Could not delete browser extension \(internalIdentifier) as it does not exist")
             return
@@ -290,19 +291,23 @@ class OrionExtensionManager: OrionBrowserExtensionDelegate {
         })
         if !windowController!.allToolbarIdentifiers.contains(identifier) {
             windowController!.allToolbarIdentifiers.append(identifier)
-            windowController!.toolbarItemNames[identifier] = sender.manifest!.name
         }
         let item: NSToolbarItem = NSToolbarItem(itemIdentifier: .init(rawValue: sender.internalIdentifier))
-        // swiftlint:ignore:next line_length
-        item.image = sender.manifest!.getExtensionIcon() ?? NSImage(named: NSImage.actionTemplateName)
+
+        item.image = sender.manifest!.getExtensionIcon(
+            extensionPath: sender.extensionPath
+        ) ?? NSImage(named: NSImage.actionTemplateName)
+
         if #available(macOS 10.15, *) {
             item.isBordered = true
         }
         item.autovalidates = true
-        item.toolTip = sender.manifest?.name
+        item.toolTip = sender.manifest!.name
+        item.paletteLabel = sender.manifest!.name
         item.target = sender
-        item.action = Selector(("createPopup"))
-        windowController!.preconfiguredToolbarItem = item
+        item.action = #selector(OrionBrowserExtension.createPopup)
+        windowController!.dynamicItems[item.itemIdentifier] = item
+        sender.toolbarItem = item
         NSAnimationContext.runAnimationGroup { context in
             context.duration = 0.3
             windowController!.window!.toolbar!.insertItem(
@@ -324,17 +329,14 @@ class OrionExtensionManager: OrionBrowserExtensionDelegate {
             let popover: NSPopover = NSPopover()
             popover.behavior = .transient
             popover.contentViewController = sender
-            popover.animates = true
-            popover.show(
-                relativeTo: NSRect(
-                    x: 0,
-                    y: 0,
-                    width: 0,
-                    height: 0
-                ),
-                of: window.contentView!,
-                preferredEdge: .minX
-            )
+            popover.animates = false
+            if let view = sender.toolbarItem!.value(forKey: "_itemViewer") as? NSView {
+                popover.show(
+                    relativeTo: view.convert(view.bounds, to: nil),
+                    of: window.contentView!,
+                    preferredEdge: .minY
+                )
+            }
         }
     }
 }

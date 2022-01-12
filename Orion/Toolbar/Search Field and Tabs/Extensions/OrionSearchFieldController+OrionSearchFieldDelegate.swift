@@ -16,30 +16,14 @@ extension OrionSearchFieldController: OrionSearchFieldDelegate {
 
     func searchFieldWantsFocus(sender: OrionSearchField) {
         delegate?.tabWantsForeground(tab: self)
-        delegate?.tabBecameFirstResponder(tab: self)
     }
 
-    func searchFieldDidStartSearching(_ sender: NSSearchField) {
-        goTo(url: sender.stringValue)
+    func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+        if commandSelector == #selector(NSResponder.insertNewline(_:)) {
+            goTo(url: searchField.stringValue) // Reliable as heck
+            searchField.resignFirstResponder()
+            return true
+        }
+        return false
     }
-
-    /// Sets up our search fields initial properties and frame
-    func setupSearchField() {
-        NSLayoutConstraint.activate([
-            searchField.heightAnchor.constraint(equalToConstant: 29),
-            searchField.widthAnchor.constraint(greaterThanOrEqualToConstant: 300)
-        ])
-        searchField.delegate = self
-        searchField.isEditable = true
-        searchField.isBezeled = true
-        searchField.isSelectable = true
-        searchField.sendsWholeSearchString = true
-        searchField.maximumNumberOfLines = 1
-        searchField.maximumRecents = 5
-        searchField.recentsAutosaveName = "SearchFieldAutoSave"
-        searchField.bezelStyle = .squareBezel
-        searchField.placeholderString = "Search or enter website name"
-        searchField.focusRingType = .exterior
-    }
-
 }

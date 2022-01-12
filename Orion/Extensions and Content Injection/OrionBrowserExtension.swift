@@ -31,6 +31,10 @@ class OrionBrowserExtension: NSViewController {
     /// Defaults to true
     var enabled: Bool = true
 
+    /// The toolbar item that corresponds to the action declared in the manifest
+    /// if existant.
+    var toolbarItem: NSToolbarItem?
+
     /// The delegate of the browser. This spot is usually filled by the `OrionExtensionManager`
     weak var delegate: OrionBrowserExtensionDelegate?
 
@@ -92,6 +96,7 @@ class OrionBrowserExtension: NSViewController {
             ),
             configuration: configuration
         )
+        webview.navigationDelegate = self
         view = webview
     }
 
@@ -101,8 +106,13 @@ class OrionBrowserExtension: NSViewController {
     @objc func createPopup() {
         if let webview = view as? WKWebView {
             let filePath = extensionPath.appendingPathComponent(manifest!.browserAction!.defaultPopup!)
-
-            webview.loadFileURL(filePath, allowingReadAccessTo: extensionPath.standardizedFileURL)
+            do {
+                let htmlContent = try String(contentsOf: filePath)
+                webview.loadHTMLString(htmlContent, baseURL: extensionPath)
+            } catch {
+                print("[Error] Could not load the extension popover content from the filesystem. Does the extension still exist?")
+            }
+            // webview.loadFileURL(filePath, allowingReadAccessTo: extensionPath)
         }
         delegate!.showPopover(self)
     }

@@ -76,7 +76,7 @@ import WebKit
      /// - Parameters:
      ///    - manifest: The manifest object to get the image of
      ///
-     func getExtensionIcon() -> NSImage? {
+     func getExtensionIcon(extensionPath path: URL) -> NSImage? {
          // Defaulting to highest quality
          guard icons != nil && icons!.count > 0 else {
              return nil
@@ -89,7 +89,7 @@ import WebKit
          })
          let fileManager: FileManager = FileManager.default
          // swiftlint:ignore:next line_length
-         let iconPath = fileManager.applicationSupportDirectory!.appendingPathExtension(icons!["\(highestRes)"]!)
+         let iconPath = path.appendingPathComponent(icons!["\(highestRes)"]!)
          guard fileManager.fileExists(atPath: iconPath.path) else {
              return nil
          }
