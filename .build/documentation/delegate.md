@@ -1,5 +1,0 @@
-# delegate
-
-``` swift
-let delegate 
-```

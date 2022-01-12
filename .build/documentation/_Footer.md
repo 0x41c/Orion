@@ -1,1 +1,0 @@
-Generated at 2022-01-11T21:44:29-0800 using [swift-doc](https://github.com/SwiftDocOrg/swift-doc) 1.0.0-rc.1.

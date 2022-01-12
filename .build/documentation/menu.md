@@ -1,5 +1,0 @@
-# menu
-
-``` swift
-let menu 
-```
